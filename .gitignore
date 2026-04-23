@@ -4,6 +4,8 @@
 # Keep repo metadata.
 !/.gitignore
 !/README.md
+!/OPENCLAW_MAINTENANCE.md
+!/github-radar-维修与配置经验.md
 
 # Keep curated documentation and templates.
 !/docs/
@@ -12,13 +14,31 @@
 !/scripts/**
 !/templates/
 !/templates/**
+!/artifacts/
+!/artifacts/**
 
 # Keep selected maintainer artifacts that are useful for future repair work.
 !/workspace-openclaw-maintainer/
 /workspace-openclaw-maintainer/*
+!/workspace-openclaw-maintainer/AGENTS.md
+!/workspace-openclaw-maintainer/BOOTSTRAP.md
+!/workspace-openclaw-maintainer/HEARTBEAT.md
+!/workspace-openclaw-maintainer/IDENTITY.md
+!/workspace-openclaw-maintainer/SOUL.md
+!/workspace-openclaw-maintainer/TEMPLATE_LIBRARY.md
+!/workspace-openclaw-maintainer/TOOLS.md
 !/workspace-openclaw-maintainer/playbooks/
 /workspace-openclaw-maintainer/playbooks/*
-!/workspace-openclaw-maintainer/playbooks/codex-startup-maintenance-submission.md
+!/workspace-openclaw-maintainer/playbooks/*.md
+!/workspace-openclaw-maintainer/prompts/
+/workspace-openclaw-maintainer/prompts/*
+!/workspace-openclaw-maintainer/prompts/*.md
 !/workspace-openclaw-maintainer/scripts/
 /workspace-openclaw-maintainer/scripts/*
-!/workspace-openclaw-maintainer/scripts/reapply-local-openclaw-patches.mjs
+!/workspace-openclaw-maintainer/scripts/*.mjs
+!/workspace-openclaw-maintainer/scripts/*.sh
+!/workspace-openclaw-maintainer/skills/
+/workspace-openclaw-maintainer/skills/*
+!/workspace-openclaw-maintainer/skills/openclaw_maintenance_ops/
+/workspace-openclaw-maintainer/skills/openclaw_maintenance_ops/*
+!/workspace-openclaw-maintainer/skills/openclaw_maintenance_ops/SKILL.md

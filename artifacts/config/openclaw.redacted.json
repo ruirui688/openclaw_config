@@ -1,0 +1,402 @@
+{
+  "agents": {
+    "defaults": {
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "maxConcurrent": 4,
+      "imageModel": {
+        "primary": "openai/gpt-5.4"
+      },
+      "model": {
+        "primary": "openai/gpt-5.4"
+      },
+      "models": {
+        "openai/gpt-5.4": {
+          "alias": "Codex"
+        }
+      },
+      "subagents": {
+        "maxConcurrent": 8
+      },
+      "workspace": "/home/rui/.openclaw/workspace"
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "github-radar",
+        "name": "github-radar",
+        "workspace": "/home/rui/.openclaw/workspace-github-radar",
+        "agentDir": "/home/rui/.openclaw/agents/github-radar/agent"
+      },
+      {
+        "id": "openclaw-maintainer",
+        "name": "openclaw-maintainer",
+        "workspace": "/home/rui/.openclaw/workspace-openclaw-maintainer",
+        "agentDir": "/home/rui/.openclaw/agents/openclaw-maintainer/agent"
+      },
+      {
+        "id": "recreation-chatbot",
+        "name": "recreation-chatbot",
+        "workspace": "/home/rui/.openclaw/workspace-recreation-chatbot",
+        "agentDir": "/home/rui/.openclaw/agents/recreation-chatbot/agent",
+        "heartbeat": {
+          "every": "2h",
+          "target": "last",
+          "accountId": "recreation-chatbot",
+          "directPolicy": "allow",
+          "lightContext": false,
+          "isolatedSession": false,
+          "activeHours": {
+            "start": "10:00",
+            "end": "23:30",
+            "timezone": "Asia/Shanghai"
+          },
+          "ackMaxChars": 300
+        }
+      },
+      {
+        "id": "research-orchestrator",
+        "name": "research-orchestrator",
+        "workspace": "/home/rui/.openclaw/workspace-research-orchestrator",
+        "agentDir": "/home/rui/.openclaw/agents/research-orchestrator/agent"
+      }
+    ]
+  },
+  "acp": {
+    "enabled": true,
+    "dispatch": {
+      "enabled": true
+    },
+    "backend": "acpx"
+  },
+  "auth": {
+    "profiles": {}
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "ownerDisplay": "raw",
+    "restart": true
+  },
+  "gateway": {
+    "auth": {
+      "mode": "token",
+      "token": "__REDACTED_TOKEN__"
+    },
+    "bind": "loopback",
+    "mode": "local",
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    },
+    "port": 18789,
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "meta": {
+    "lastTouchedAt": "__REDACTED_TIMESTAMP__",
+    "lastTouchedVersion": "2026.4.15"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "api": "ollama",
+        "apiKey": "ollama-local",
+        "baseUrl": "http://127.0.0.1:11434",
+        "models": [
+          {
+            "id": "llava:latest",
+            "name": "llava:latest",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 32768,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "openai": {
+        "api": "openai-responses",
+        "apiKey": "__SET_API_KEY__",
+        "baseUrl": "http://__REDACTED_HOST__",
+        "models": [
+          {
+            "api": "openai-responses",
+            "contextWindow": 1000000,
+            "id": "gpt-5.4",
+            "input": [
+              "text",
+              "image"
+            ],
+            "maxTokens": 32768,
+            "name": "gpt-5.4",
+            "reasoning": true
+          }
+        ]
+      }
+    }
+  },
+  "session": {
+    "dmScope": "per-channel-peer",
+    "threadBindings": {
+      "enabled": true,
+      "idleHours": 168,
+      "maxAgeHours": 0
+    }
+  },
+  "tools": {
+    "profile": "coding",
+    "sessions_spawn": {
+      "attachments": {
+        "enabled": true,
+        "maxTotalBytes": 5242880,
+        "maxFiles": 20,
+        "maxFileBytes": 1048576
+      }
+    }
+  },
+  "wizard": {
+    "lastRunAt": "__REDACTED_TIMESTAMP__",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local",
+    "lastRunVersion": "2026.4.15"
+  },
+  "channels": {
+    "telegram": {
+      "defaultAccount": "github-radar",
+      "commands": {
+        "native": true,
+        "nativeSkills": false
+      },
+      "accounts": {
+        "github-radar": {
+          "name": "GitHub OpenClaw Assistant",
+          "enabled": true,
+          "tokenFile": "/home/rui/.openclaw/secrets/telegram-github-radar.token",
+          "network": {
+            "dangerouslyAllowPrivateNetwork": true
+          },
+          "proxy": "http://127.0.0.1:7897",
+          "streaming": {
+            "mode": "partial",
+            "chunkMode": "length"
+          },
+          "textChunkLimit": 4000,
+          "customCommands": [],
+          "dmPolicy": "open",
+          "allowFrom": [
+            "*"
+          ]
+        },
+        "openclaw-maintainer": {
+          "name": "OpenClaw 工务长",
+          "enabled": true,
+          "tokenFile": "/home/rui/.openclaw/secrets/telegram-openclaw-maintainer.token",
+          "network": {
+            "dangerouslyAllowPrivateNetwork": true
+          },
+          "proxy": "http://127.0.0.1:7897",
+          "streaming": {
+            "mode": "partial",
+            "chunkMode": "newline"
+          },
+          "textChunkLimit": 4000,
+          "customCommands": [],
+          "dmPolicy": "open",
+          "allowFrom": [
+            "*"
+          ]
+        },
+        "recreation-chatbot": {
+          "name": "Recreation",
+          "enabled": true,
+          "tokenFile": "/home/rui/.openclaw/secrets/telegram-recreation-chatbot.token",
+          "network": {
+            "dangerouslyAllowPrivateNetwork": true
+          },
+          "proxy": "http://127.0.0.1:7897",
+          "streaming": {
+            "mode": "partial",
+            "chunkMode": "newline"
+          },
+          "textChunkLimit": 4000,
+          "customCommands": [],
+          "dmPolicy": "open",
+          "allowFrom": [
+            "__YOUR_TELEGRAM_USER_ID__",
+            "*"
+          ]
+        },
+        "research-orchestrator": {
+          "name": "Research Orchestrator",
+          "enabled": true,
+          "tokenFile": "/home/rui/.openclaw/secrets/telegram-research-orchestrator.token",
+          "network": {
+            "dangerouslyAllowPrivateNetwork": true
+          },
+          "proxy": "http://127.0.0.1:7897",
+          "streaming": {
+            "mode": "partial",
+            "chunkMode": "newline"
+          },
+          "textChunkLimit": 4000,
+          "markdown": {
+            "tables": "bullets"
+          },
+          "trustedLocalFileRoots": [
+            "/home/rui/.openclaw/workspace-research-orchestrator",
+            "/home/rui/.openclaw",
+            "/tmp"
+          ],
+          "commands": {
+            "native": false,
+            "nativeSkills": false
+          },
+          "customCommands": [
+            {
+              "command": "bind",
+              "description": "绑定当前 topic 到项目"
+            },
+            {
+              "command": "project",
+              "description": "查看当前项目状态"
+            },
+            {
+              "command": "research",
+              "description": "发起深度研究"
+            },
+            {
+              "command": "devplan",
+              "description": "生成开发方案"
+            },
+            {
+              "command": "paper",
+              "description": "生成论文写作产出"
+            },
+            {
+              "command": "digest",
+              "description": "总结项目进展"
+            }
+          ],
+          "dmPolicy": "open",
+          "groupPolicy": "open",
+          "allowFrom": [
+            "*"
+          ],
+          "groupAllowFrom": [
+            "*"
+          ],
+          "groups": {
+            "__YOUR_TELEGRAM_GROUP_ID_1__": {
+              "enabled": true,
+              "groupPolicy": "open",
+              "allowFrom": [
+                "*"
+              ],
+              "requireMention": false
+            }
+          },
+          "execApprovals": {
+            "approvers": [
+              "__YOUR_TELEGRAM_APPROVER_ID__"
+            ],
+            "agentFilter": [
+              "research-orchestrator"
+            ],
+            "target": "dm"
+          },
+          "threadBindings": {
+            "enabled": true,
+            "idleHours": 168,
+            "maxAgeHours": 0,
+            "spawnSubagentSessions": true,
+            "spawnAcpSessions": true
+          }
+        }
+      },
+      "enabled": true
+    }
+  },
+  "bindings": [
+    {
+      "type": "route",
+      "agentId": "github-radar",
+      "match": {
+        "channel": "telegram",
+        "accountId": "github-radar"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "openclaw-maintainer",
+      "match": {
+        "channel": "telegram",
+        "accountId": "openclaw-maintainer"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "recreation-chatbot",
+      "match": {
+        "channel": "telegram",
+        "accountId": "recreation-chatbot"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "research-orchestrator",
+      "match": {
+        "channel": "telegram",
+        "accountId": "research-orchestrator"
+      }
+    }
+  ],
+  "mcp": {
+    "servers": {
+      "github": {
+        "command": "/home/rui/.openclaw/workspace-github-radar/scripts/start-github-mcp.sh"
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "openai": {
+        "enabled": true
+      },
+      "acpx": {
+        "enabled": true,
+        "config": {
+          "agents": {
+            "codex": {
+              "command": "npx @zed-industries/codex-acp@^0.11.1"
+            }
+          }
+        }
+      }
+    }
+  }
+}

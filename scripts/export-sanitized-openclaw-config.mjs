@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 function parseArgs(argv) {
@@ -36,6 +36,10 @@ function sanitizeScalar(key, value) {
   if (typeof value !== "string") {
     if (key === "lastTouchedAt" || key === "lastRunAt") return "__REDACTED_TIMESTAMP__";
     return value;
+  }
+  if (key === "baseUrl") {
+    if (/^https?:\/\/(127\.0\.0\.1|localhost)(?::\d+)?/i.test(value)) return value;
+    return "http://__REDACTED_HOST__";
   }
   if (key === "token") {
     if (value.startsWith("ghp_") || value.startsWith("ghu_")) return "__SET_GITHUB_TOKEN__";
@@ -105,6 +109,7 @@ function main() {
     process.stdout.write(output);
   }
   if (args.output) {
+    mkdirSync(path.dirname(args.output), { recursive: true });
     writeFileSync(args.output, output, "utf8");
   }
 }

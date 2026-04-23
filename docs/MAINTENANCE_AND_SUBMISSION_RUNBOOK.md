@@ -101,12 +101,19 @@ git status
 
 3. 确认没有误收录敏感内容。
 
+如果这次值得保留“脱敏运行记录”，再额外刷新：
+
+```bash
+node scripts/export-sanitized-openclaw-config.mjs --out artifacts/config/openclaw.redacted.json
+node scripts/export-redacted-openclaw-runtime-snapshot.mjs --out artifacts/runtime-snapshots/latest.md
+```
+
 4. 提交：
 
 ```bash
-git add README.md .gitignore docs scripts templates \
-  workspace-openclaw-maintainer/playbooks/codex-startup-maintenance-submission.md \
-  workspace-openclaw-maintainer/scripts/reapply-local-openclaw-patches.mjs
+git add README.md .gitignore docs scripts templates artifacts \
+  OPENCLAW_MAINTENANCE.md github-radar-维修与配置经验.md \
+  workspace-openclaw-maintainer
 ```
 
 ```bash

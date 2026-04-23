@@ -27,10 +27,26 @@
 
 - `docs/REPO_SCOPE_AND_SECURITY.md`
 - `docs/MAINTENANCE_AND_SUBMISSION_RUNBOOK.md`
+- `artifacts/README.md`
+- `artifacts/config/openclaw.redacted.json`
+- `artifacts/runtime-snapshots/latest.md`
 - `scripts/export-sanitized-openclaw-config.mjs`
+- `scripts/export-redacted-openclaw-runtime-snapshot.mjs`
 - `templates/openclaw.template.json`
+- `OPENCLAW_MAINTENANCE.md`
+- `github-radar-维修与配置经验.md`
+- `workspace-openclaw-maintainer/AGENTS.md`
+- `workspace-openclaw-maintainer/BOOTSTRAP.md`
+- `workspace-openclaw-maintainer/HEARTBEAT.md`
+- `workspace-openclaw-maintainer/IDENTITY.md`
+- `workspace-openclaw-maintainer/SOUL.md`
+- `workspace-openclaw-maintainer/TEMPLATE_LIBRARY.md`
+- `workspace-openclaw-maintainer/TOOLS.md`
+- `workspace-openclaw-maintainer/playbooks/*.md`
+- `workspace-openclaw-maintainer/prompts/*.md`
+- `workspace-openclaw-maintainer/skills/openclaw_maintenance_ops/SKILL.md`
+- `workspace-openclaw-maintainer/scripts/*.mjs`
 - `workspace-openclaw-maintainer/playbooks/codex-startup-maintenance-submission.md`
-- `workspace-openclaw-maintainer/scripts/reapply-local-openclaw-patches.mjs`
 
 ## 日常更新流程
 
@@ -47,6 +63,13 @@ openclaw channels status --probe
 
 ```bash
 node scripts/export-sanitized-openclaw-config.mjs --out templates/openclaw.template.json
+```
+
+如果你希望把当前真实状态也以“脱敏快照”的方式保留下来，再执行：
+
+```bash
+node scripts/export-sanitized-openclaw-config.mjs --out artifacts/config/openclaw.redacted.json
+node scripts/export-redacted-openclaw-runtime-snapshot.mjs --out artifacts/runtime-snapshots/latest.md
 ```
 
 4. 检查仓库状态：
