@@ -1,0 +1,24 @@
+# Curated repo: ignore everything by default.
+/*
+
+# Keep repo metadata.
+!/.gitignore
+!/README.md
+
+# Keep curated documentation and templates.
+!/docs/
+!/docs/**
+!/scripts/
+!/scripts/**
+!/templates/
+!/templates/**
+
+# Keep selected maintainer artifacts that are useful for future repair work.
+!/workspace-openclaw-maintainer/
+/workspace-openclaw-maintainer/*
+!/workspace-openclaw-maintainer/playbooks/
+/workspace-openclaw-maintainer/playbooks/*
+!/workspace-openclaw-maintainer/playbooks/codex-startup-maintenance-submission.md
+!/workspace-openclaw-maintainer/scripts/
+/workspace-openclaw-maintainer/scripts/*
+!/workspace-openclaw-maintainer/scripts/reapply-local-openclaw-patches.mjs
