@@ -8,11 +8,14 @@ const DEFAULT_TELEGRAM_BOT_FILE =
   "/home/rui/.nvm/versions/node/v22.22.0/lib/node_modules/openclaw/dist/extensions/telegram/bot-Ch7__EHu.js";
 const DEFAULT_TELEGRAM_DELIVERY_FILE =
   "/home/rui/.nvm/versions/node/v22.22.0/lib/node_modules/openclaw/dist/extensions/telegram/delivery-AYrG1NE_.js";
+const DEFAULT_BOOT_HANDLER_FILE =
+  "/home/rui/.nvm/versions/node/v22.22.0/lib/node_modules/openclaw/dist/bundled/boot-md/handler.js";
 
 const runtimeFile = process.env.OPENCLAW_TOOLS_RUNTIME_FILE || DEFAULT_RUNTIME_FILE;
 const telegramBotFile = process.env.OPENCLAW_TELEGRAM_BOT_FILE || DEFAULT_TELEGRAM_BOT_FILE;
 const telegramDeliveryFile =
   process.env.OPENCLAW_TELEGRAM_DELIVERY_FILE || DEFAULT_TELEGRAM_DELIVERY_FILE;
+const bootHandlerFile = process.env.OPENCLAW_BOOT_HANDLER_FILE || DEFAULT_BOOT_HANDLER_FILE;
 
 const strictParamBlock = `\t\t\tconst streamTo = params.streamTo === "parent" ? "parent" : void 0;
 \t\t\tconst lightContext = params.lightContext === true;
@@ -97,6 +100,11 @@ const telegramDeliveryRootsOriginal = `mediaLocalRoots: params.mediaLocalRoots,`
 const telegramDeliveryRootsPatched =
   `mediaLocalRoots: resolveDynamicReplyMediaLocalRoots(params.mediaLocalRoots, mediaList),`;
 
+const bootHandlerPromptOriginal = `		"If BOOT.md asks you to send a message, use the message tool (action=send with channel + target).",
+		"Use the \`target\` field (not \`to\`) for message tool destinations.",`;
+const bootHandlerPromptPatched = `		"If BOOT.md asks you to send a message, use the message tool (action=send with channel + to).",
+		"Use the \`to\` field (not \`target\`) for message tool destinations.",`;
+
 function patchFile(filePath, source, mutator) {
   let next = source;
   const changes = [];
@@ -140,15 +148,22 @@ const telegramDeliveryPatch = patchFile(
   },
 );
 
+const bootHandlerSource = readFileSync(bootHandlerFile, "utf8");
+const bootHandlerPatch = patchFile(bootHandlerFile, bootHandlerSource, (apply) => {
+  apply("boot_handler_message_field_hint", bootHandlerPromptOriginal, bootHandlerPromptPatched);
+});
+
 console.log(JSON.stringify({
   ok: true,
   runtimeFile,
   telegramBotFile,
   telegramDeliveryFile,
-  changed: runtimePatch.changed || telegramBotPatch.changed || telegramDeliveryPatch.changed,
+  bootHandlerFile,
+  changed: runtimePatch.changed || telegramBotPatch.changed || telegramDeliveryPatch.changed || bootHandlerPatch.changed,
   changes: [
     ...runtimePatch.changes,
     ...telegramBotPatch.changes,
     ...telegramDeliveryPatch.changes,
+    ...bootHandlerPatch.changes,
   ],
 }, null, 2));
